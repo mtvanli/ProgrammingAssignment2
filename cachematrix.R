@@ -1,4 +1,5 @@
-## Below are two functions that are used to create a special object that stores a matrix and cache's its inverse.
+## Below are two functions that are used to create a special object that 
+##stores a matrix and cache's its inverse.
 
 ## The first function, makeCacheMatrix creates a special "matrix", which 
 ## returns a list containing a function to
@@ -7,17 +8,21 @@
 ## set the inverse of the matrix
 ## get the inverse of the matrix
 
+## The matrix supplied must be always invertible.
+## n-by-n square matrix A is called invertible if there exists an n-by-n square
+## matrix B such that AB = BA = I  where I denotes the n-by-n identity matrix
+
 makeCacheMatrix <- function(x = matrix()) {
-    i <- matrix(0,nrow=nrow(x),ncol=ncol(x))
-    set <- function(y){
-        x <<- as.matrix(y)
-        i <<- matrix(0,nrow=nrow(x),ncol=ncol(x))
-    }
-    get <-function() x
-    setinverse <- function(inverse) i <<- inverse
-    getinverse <- function() i
-    list(set = set, get = get, setinverse = setinverse, getinverse=getinverse)
-    
+        i <- matrix(0,nrow=nrow(x),ncol=ncol(x))
+        set <- function(y){
+                x <<- as.matrix(y)
+                i <<- matrix(0,nrow=nrow(x),ncol=ncol(x))
+        }
+        get <-function() x
+        setinverse <- function(inverse) i <<- inverse
+        getinverse <- function() i
+        list(set = set, get = get, setinverse = setinverse, getinverse=getinverse)
+        
 }
 
 
@@ -27,13 +32,13 @@ makeCacheMatrix <- function(x = matrix()) {
 ## cache.
 
 cacheSolve <- function(x, ...) {
-    i <- x$getinverse()
-    if(!all(i==0)){
-        message("getting cahced data")
-        return(i)
-    }
-    data <- x$get()
-    i <- solve(data,...)
-    x$setinverse(i)
-    i
+        i <- x$getinverse()
+        if(!all(i==0)){
+                message("getting cahced data")
+                return(i)
+        }
+        data <- x$get()
+        i <- solve(data,...)
+        x$setinverse(i)
+        i
 }
